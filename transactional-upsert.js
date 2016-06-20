@@ -6,8 +6,7 @@ module.exports = (knex, options) => {
         batchSize: 100,
     });
 
-    return (Model, rows, fieldToTypeMap, primaryKey) => {
-
+    return (tableName, rows, fieldToTypeMap, primaryKey) => {
         var makeBatches = (rows) => {
             var batches = [];
 
@@ -32,7 +31,7 @@ module.exports = (knex, options) => {
             */
 
             var updateQuery = (
-                `UPDATE ${Model.prototype.tableName} AS t SET `
+                `UPDATE ${tableName} AS t SET `
             );
 
             var fields = Object.keys(rows[0]);
@@ -70,7 +69,7 @@ module.exports = (knex, options) => {
         };
 
         var doBatchOfInserts = (txn, rows) => {
-            return knex(Model.prototype.tableName).insert(rows).transacting(txn);
+            return knex(tableName).insert(rows).transacting(txn);
         };
 
         var doInserts = (txn, rows) => {
@@ -85,19 +84,7 @@ module.exports = (knex, options) => {
             );
         };
 
-        var query = knex(Model.prototype.tableName);
-
-        if (Array.isArray(primaryKey)) {
-            rows.map(row => {
-                query.orWhere(qb => {
-                    primaryKey.forEach(keyCol => {
-                        qb.where(keyCol, '=', row[keyCol]);
-                    });
-                });
-            });
-        } else {
-            Model.where(primaryKey, 'IN', rows.map(row => row[primaryKey]));
-        }
+        var query = knex(tableName);
 
         var updates = [];
         var inserts = [];

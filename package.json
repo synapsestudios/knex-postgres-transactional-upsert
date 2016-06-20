@@ -1,7 +1,7 @@
 {
-  "name": "bookshelf-postgres-transactional-upsert",
+  "name": "knex-postgres-transactional-upsert",
   "version": "0.1.0",
-  "description": "Transactionally upsert data into a postgres db using bookshelf",
+  "description": "Transactionally upsert data into a postgres db using knex",
   "main": "transactional-upsert.js",
   "license": "MIT",
   "dependencies": {
