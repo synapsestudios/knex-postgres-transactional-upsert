@@ -1,6 +1,10 @@
 {
   "name": "knex-postgres-transactional-upsert",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/synapsestudios/knex-postgres-transactional-upsert.git"
+  },
   "description": "Transactionally upsert data into a postgres db using knex",
   "main": "transactional-upsert.js",
   "license": "MIT",
