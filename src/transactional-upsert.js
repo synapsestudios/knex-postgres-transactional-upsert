@@ -86,6 +86,19 @@ module.exports = (knex, options) => {
 
         var query = knex(tableName);
 
+        // Get all rows that match provided IDs, so we know whether to up or sert
+        if (Array.isArray(primaryKey)) {
+            rows.map(row => {
+                query.orWhere(qb => {
+                    primaryKey.forEach(keyCol => {
+                        qb.where(keyCol, '=', row[keyCol]);
+                    });
+                });
+            });
+        } else {
+            query.where(primaryKey, 'IN', rows.map(row => row[primaryKey]));
+        }
+
         var updates = [];
         var inserts = [];
 
