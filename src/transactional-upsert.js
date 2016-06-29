@@ -84,6 +84,8 @@ module.exports = (knex, options) => {
             );
         };
 
+        var query = knex(tableName);
+
         // Get all rows that match provided IDs, so we know whether to up or sert
         if (Array.isArray(primaryKey)) {
             rows.map(row => {
@@ -96,8 +98,6 @@ module.exports = (knex, options) => {
         } else {
             query.where(primaryKey, 'IN', rows.map(row => row[primaryKey]));
         }
-
-        var query = knex(tableName);
 
         var updates = [];
         var inserts = [];
