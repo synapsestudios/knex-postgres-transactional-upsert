@@ -49,7 +49,7 @@ module.exports = (knex, options) => {
             updateQuery += ` FROM (values ${valuesString} ) AS u (${Object.keys(rows[0]).join(', ')})`;
 
             var primaryKeyArray = Array.isArray(primaryKey) ? primaryKey : [primaryKey];
-            var where = primaryKeyArray.map(key => ` t.${key} = u.${key} `).join(' AND ');
+            var where = primaryKeyArray.map(key => ` t.${key} = u.${key}::${fieldToTypeMap[key]} `).join(' AND ');
 
             updateQuery += ` WHERE ${where}`;
 
